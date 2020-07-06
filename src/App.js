@@ -4,23 +4,31 @@ import './App.css';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { lyrics: false, fullLyrics: ""}
+    this.state = { searchState: "NO", fullLyrics: ""}
   }
 
-  fetchMiAPIData = async (artist, title) => {
-    const response = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`);
-    if(response.status == 200) {
-      this.setState({lyrics: true});
+  fecthLyrics = async () => {
+    const {artist, title} = this.state;
+    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
+    if(artist && title){
+      const response = await fetch(url);
+      if(response.status == 200) {
+        return response.json();
+      } else {
+        return ({error: "No se encontro la letra"});     
+      }
     } else {
-      alert("No se encontro la canción");
+      return ({error: "Debe especificar el nombre y título de canción"});
     }
-    return response.json();
   };
 
   handleClick = async (ev) => {
-    this.setState({lyrics: false});
-    let response = await this.fetchMiAPIData(this.state.artist, this.state.title);
-    this.setState({fullLyrics: this.state.lyrics ? response.lyrics : "" });
+    this.setState({searchState: "LOADING"});
+    const response = await this.fecthLyrics();
+    this.setState({
+      fullLyrics: response.error ? response.error : response.lyrics,
+      searchState: "OK"
+    });
   }
 
   handleOnChange = (ev) => {
@@ -30,17 +38,27 @@ export default class App extends React.Component {
   }
 
   render() {
+    const {searchState, fullLyrics} = this.state;
     return (
-      <div className="p-5 mt-5 justify-content-md-center row">
-        <InputBox id="artist" placeholder="Artista" onChange={this.handleOnChange.bind(this)}/>
-        <InputBox id="title" placeholder="Título" onChange={this.handleOnChange.bind(this)}/>
-        <div className="col-8">
-          <button className="btn btn-primary btn-block" id="btn" onClick={this.handleClick.bind(this)}>Buscar lera de canción</button>
+      <>
+        <div className="p-5 mt-5 justify-content-md-center row">
+          <InputBox id="artist" placeholder="Artista" onChange={this.handleOnChange.bind(this)}/>
+          <InputBox id="title" placeholder="Título" onChange={this.handleOnChange.bind(this)}/>
+          <div className="col-8">
+            <button className="btn btn-primary btn-block" id="btn" onClick={this.handleClick.bind(this)}>Buscar lera de canción</button>
+          </div>
         </div>
-        <pre className="pt-5 col-8 text-center" id="letras">
-          {this.state.lyrics ? this.state.fullLyrics : "" }
-        </pre>
-      </div>
+        <div className="text-center justify-content-md-center row">
+          <div className={searchState == 'LOADING' ? 'col-8' : 'col-8 d-none'}>
+            <div className="spinner-grow" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+          <pre className="pt-5 col-8 text-center" id="letras">
+            {searchState == 'OK' ? fullLyrics : "" }
+          </pre>
+        </div>
+      </>
     );
   }
 }
