@@ -45,7 +45,7 @@ export default class App extends React.Component {
           <InputBox id="artist" placeholder="Artista" onChange={this.handleOnChange.bind(this)}/>
           <InputBox id="title" placeholder="Título" onChange={this.handleOnChange.bind(this)}/>
           <div className="col-8">
-            <button className="btn btn-primary btn-block" id="btn" onClick={this.handleClick.bind(this)}>Buscar lera de canción</button>
+            <button className="btn btn-primary btn-block" id="btn" onClick={this.handleClick.bind(this)} disabled={searchState == 'LOADING' ? 'disabled' : ''}>Buscar lera de canción</button>
           </div>
         </div>
         <div className="text-center justify-content-md-center row">
