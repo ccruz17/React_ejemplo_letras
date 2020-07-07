@@ -19,11 +19,16 @@ export default class LyricsPanel extends React.Component {
     }
     
     componentDidMount() {
+        /*
+        /////////////////////
+        Lo comenté porque mi componente se carga desde el principio y no tiene artista ni título de la canción, pero entiendo el concepto
+        /////////////////////
         const { artist, title } = this.props;
 
         if (artist && title) {
             this.updateLyricsState(artist, title);
-        }
+        }*/
+        alert("Omite este mensaje! es para probar el componentDidMount");
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

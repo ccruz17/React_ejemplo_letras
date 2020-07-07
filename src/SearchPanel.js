@@ -30,7 +30,7 @@ export default class SearchPanel extends React.Component {
               <div className="col-8">
                   <button className="btn btn-primary btn-block" id="btn" 
                       onClick={searchClick} 
-                      disabled={(searchState) === 'LOADING' ? 'disabled' : ''}>
+                      disabled={(searchState) === 'LOADING' || (!artist || !title) ? 'disabled' : ''}>
                         Buscar lera de canción
                   </button>
               </div>
