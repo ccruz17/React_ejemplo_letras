@@ -59,11 +59,6 @@ export default class LyricsPanel extends React.Component {
         const {searchState} = this.props
         return (
             <div className="text-center justify-content-md-center row">
-                <div className={searchState === 'LOADING' ? 'col-8' : 'col-8 d-none'}>
-                    <div className="spinner-grow" role="status">
-                    <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
                 <pre className="pt-5 col-8 text-center" id="letras">
                     {searchState === 'OK' ? fullLyrics : "" }
                 </pre>
