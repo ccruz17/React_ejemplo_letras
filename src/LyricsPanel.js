@@ -1,5 +1,5 @@
 import React from 'react';
-
+import propTypes from 'prop-types';
 
 export default class LyricsPanel extends React.Component {
     constructor(props) {
@@ -65,4 +65,11 @@ export default class LyricsPanel extends React.Component {
             </div>
         );
     }
+}
+
+LyricsPanel.propTypes = {
+    searchState: propTypes.string.isRequired,
+    handleUpdateSearchState: propTypes.func.isRequired,
+    artist: propTypes.string,
+    title: propTypes.string
 }
